@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        * {
+       * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -22,7 +22,6 @@
             align-items: center;
             transition: background 0.8s ease; 
             padding: 20px;
-            /* Background mein subtle depth add karne ke liye */
             background-attachment: fixed;
         }
 
@@ -35,21 +34,21 @@
 
         .weather-container {
             width: 100%;
-            max-width: 520px; /* Desktop ke liye width thori barha di gayi hai */
+            max-width: 520px;
             padding: 35px 25px;
             border-radius: 28px;
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.25);
-             text-align: center;
-             color: white;
+            text-align: center;
+            color: white;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
             animation: fadeInUp 0.8s ease-out forwards;
             position: relative;
+            z-index: 2;
         }
 
-        /* Symmetric Buttons Alignment & Styling */
         .btn-common {
             position: absolute;
             top: 20px;
@@ -90,6 +89,25 @@
             letter-spacing: 1px;
         }
 
+        .search-box {
+            position: relative;
+        }
+
+        .search-box::before {
+            content: "";
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='rgba(255,255,255,0.7)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: 2;
+        }
+
         .search-box form {
             position: relative;
             display: flex;
@@ -100,6 +118,7 @@
         .search-box input {
             width: 100%;
             padding: 14px 18px;
+            padding-left: 45px !important;
             padding-right: 100px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
@@ -226,13 +245,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: floatIcon 3s ease-in-out infinite;
+            animation: floatIcon 3s ease-in-out infinite, pulseGlow 4s ease-in-out infinite;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
         @keyframes floatIcon {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 0 15px rgba(255,255,255,0.1); }
+            50% { box-shadow: 0 15px 30px rgba(0,0,0,0.2), 0 0 25px rgba(255,255,255,0.3); }
         }
 
         h2 {
@@ -266,6 +290,7 @@
             flex-direction: column;
             align-items: center;
             gap: 3px;
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
         }
 
         .detail-card span:nth-child(2) {
@@ -294,28 +319,40 @@
             text-align: center;
         }
 
+        /* FIXED HOURLY FORECAST HORIZONTAL SCROLLER */
         .forecast-scroll {
             display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            gap: 8px;
+            overflow-x: scroll !important; /* Force scrollbar to always show */
+            padding-bottom: 8px;
+            scroll-behavior: smooth;
         }
 
+        /* Scrollbar ko hamesha visible aur prominent rakhne ke liye */
         .forecast-scroll::-webkit-scrollbar {
-            display: none;
+            height: 8px;
+        }
+
+        .forecast-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .forecast-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.5); /* Thora bright color taake saaf dikhe */
+            border-radius: 10px;
         }
 
         .forecast-card {
             background: rgba(255, 255, 255, 0.12);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
-            padding: 6px;
-            min-width: 65px;
+            padding: 8px 6px;
+            min-width: 70px;
             text-align: center;
             flex-shrink: 0;
             font-size: 10px;
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
         }
 
         .forecast-card span {
@@ -336,6 +373,13 @@
             padding: 7px 10px;
             border-radius: 8px;
             font-size: 11px;
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .detail-card:hover, .forecast-card:hover, .daily-row:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
         .empty-state {
@@ -422,108 +466,47 @@
         .weather-icon-small { width: 24px; height: 24px; margin-bottom: 4px; }
         .forecast-card span:nth-child(2) { margin: 5px 0; }
 
-        .search-box {
-            position: relative;
-        }
-
-        .search-box::before {
-            content: "";
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='rgba(255,255,255,0.7)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .search-box input {
-            padding-left: 45px !important;
-        }
-
-
         /* Card Glow & Smooth Hover Enhancements */
-.weather-container::before {
-    content: '';
-    position: absolute;
-    top: -2px; left: -2px; right: -2px; bottom: -2px;
-    background: linear-gradient(45deg, rgba(255,255,255,0.4), transparent, rgba(255,255,255,0.1));
-    border-radius: 30px;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.5;
-}
+        .weather-container::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, rgba(255,255,255,0.4), transparent, rgba(255,255,255,0.1));
+            border-radius: 30px;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.5;
+        }
 
-.detail-card, .forecast-card, .daily-row {
-    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-}
+        /* Dynamic Background Light Particles Effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: 
+                radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px),
+                radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            animation: moveParticles 20s linear infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
 
-.detail-card:hover, .forecast-card:hover, .daily-row:hover {
-    transform: translateY(-3px);
-    background: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Atmospheric Pulse Effect for Main Weather Icon */
-.weather-icon-badge {
-    animation: floatIcon 3s ease-in-out infinite, pulseGlow 4s ease-in-out infinite;
-}
-
-@keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 0 15px rgba(255,255,255,0.1); }
-    50% { box-shadow: 0 15px 30px rgba(0,0,0,0.2), 0 0 25px rgba(255,255,255,0.3); }
-}
-
-
-
-
-
-/* Background Ambient Glowing Blobs for Depth */
-
-
-
-
-/* Dynamic Background Light Particles Effect */
-.weather-container {
-    z-index: 2; /* Card ko particles ke ooper rakhne ke liye */
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: 
-        radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px),
-        radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
-    background-size: 50px 50px;
-    background-position: 0 0, 25px 25px;
-    animation: moveParticles 20s linear infinite;
-    z-index: 1;
-    pointer-events: none;
-}
-
-@keyframes moveParticles {
-    0% {
-        transform: translateY(0) translateX(0);
-    }
-    100% {
-        transform: translateY(-50px) translateX(-50px);
-    }
-}
+        @keyframes moveParticles {
+            0% { transform: translateY(0) translateX(0); }
+            100% { transform: translateY(-50px) translateX(-50px); }
+        }
 
 
 
 
 
 
-    </style>
+</style>
 </head>
 
 @php
