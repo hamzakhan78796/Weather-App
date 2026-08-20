@@ -4,34 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23fbc531%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><circle cx=%2212%22 cy=%2212%22 r=%224%22/><path d=%22M12 2v2%22/><path d=%22M12 20v2%22/><path d=%22m4.93 4.93 1.41 1.41%22/><path d=%22m17.66 17.66 1.41 1.41%22/><path d=%22M2 12h2%22/><path d=%22M20 12h2%22/><path d=%22m6.34 17.66-1.41 1.41%22/><path d=%22m19.07 4.93-1.41 1.41%22/></svg>">
     <style>
-       * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
-
         body {
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: background 0.8s ease; 
+            transition: background 0.8s ease;
             padding: 20px;
             background-attachment: fixed;
         }
-
         .bg-default { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
         .bg-clear { background: linear-gradient(135deg, #2980B9 0%, #6DD5FA 100%, #FFFFFF 100%); }
         .bg-clouds { background: linear-gradient(135deg, #757F9A 0%, #D7DDE8 100%); }
         .bg-rain { background: linear-gradient(135deg, #373B44 0%, #4286f4 100%); }
         .bg-thunderstorm { background: linear-gradient(135deg, #141E30 0%, #243B55 100%); }
         .bg-snow { background: linear-gradient(135deg, #E0EAFC 0%, #CFDEF3 100%); }
-
         .weather-container {
             width: 100%;
             max-width: 520px;
@@ -48,7 +45,6 @@
             position: relative;
             z-index: 2;
         }
-
         .btn-common {
             position: absolute;
             top: 20px;
@@ -62,18 +58,15 @@
             color: white;
             transition: all 0.3s ease;
         }
-
         .btn-common:hover {
             background: rgba(255, 255, 255, 0.3);
             transform: scale(1.05);
         }
-
         .theme-toggle {
             left: 20px;
             width: 35px;
             border-radius: 50%;
         }
-
         .unit-toggle {
             right: 20px;
             border-radius: 20px;
@@ -81,18 +74,19 @@
             font-size: 11px;
             font-weight: 600;
         }
-
         h1 {
             font-size: 22px;
             font-weight: 600;
             margin-bottom: 20px;
             letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
-
         .search-box {
             position: relative;
         }
-
         .search-box::before {
             content: "";
             position: absolute;
@@ -107,19 +101,15 @@
             pointer-events: none;
             z-index: 2;
         }
-
         .search-box form {
             position: relative;
             display: flex;
             width: 100%;
             margin-bottom: 12px;
         }
-
         .search-box input {
             width: 100%;
-            padding: 14px 18px;
-            padding-left: 45px !important;
-            padding-right: 100px;
+            padding: 14px 18px 14px 45px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
             background: rgba(255, 255, 255, 0.1);
@@ -128,17 +118,14 @@
             outline: none;
             transition: all 0.3s ease;
         }
-
         .search-box input::placeholder {
             color: rgba(255, 255, 255, 0.7);
         }
-
         .search-box input:focus {
             background: rgba(255, 255, 255, 0.2);
             border-color: rgba(255, 255, 255, 0.6);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
         }
-
         .search-box button {
             position: absolute;
             right: 5px;
@@ -154,16 +141,13 @@
             font-size: 13px;
             transition: all 0.3s ease;
         }
-
         .search-box button:hover {
             background: #f0f0f0;
             transform: scale(0.98);
         }
-
         .history-section {
             margin-bottom: 15px;
         }
-
         .history-header {
             display: flex;
             justify-content: space-between;
@@ -173,7 +157,6 @@
             margin-bottom: 6px;
             padding: 0 5px;
         }
-
         .clear-history {
             background: none;
             border: none;
@@ -183,18 +166,15 @@
             text-decoration: underline;
             transition: color 0.2s;
         }
-
         .clear-history:hover {
             color: #ff5252;
         }
-
         .recent-searches {
             display: flex;
             flex-wrap: wrap;
             gap: 5px;
             justify-content: center;
         }
-
         .recent-tag {
             display: inline-flex;
             align-items: center;
@@ -207,15 +187,12 @@
             gap: 5px;
             transition: all 0.2s ease;
         }
-
         .recent-tag span.city-name {
             cursor: pointer;
         }
-
         .recent-tag span.city-name:hover {
             text-decoration: underline;
         }
-
         .remove-tag {
             background: rgba(255, 255, 255, 0.2);
             border: none;
@@ -230,12 +207,10 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-
         .remove-tag:hover {
             background: #ff5252;
             color: white;
         }
-
         .weather-icon-badge {
             margin: 10px auto 5px auto;
             width: 55px;
@@ -248,30 +223,25 @@
             animation: floatIcon 3s ease-in-out infinite, pulseGlow 4s ease-in-out infinite;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-
         @keyframes floatIcon {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
         }
-
         @keyframes pulseGlow {
             0%, 100% { box-shadow: 0 10px 20px rgba(0,0,0,0.1), 0 0 15px rgba(255,255,255,0.1); }
             50% { box-shadow: 0 15px 30px rgba(0,0,0,0.2), 0 0 25px rgba(255,255,255,0.3); }
         }
-
         h2 {
             font-size: 26px;
             font-weight: 600;
             margin-top: 4px;
         }
-
         .current-date {
             font-size: 12px;
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 2px;
             font-weight: 300;
         }
-
         .details-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -280,7 +250,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.2);
             margin-bottom: 15px;
         }
-
         .detail-card {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -292,25 +261,21 @@
             gap: 3px;
             transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
         }
-
         .detail-card span:nth-child(2) {
             font-size: 10px;
             font-weight: 300;
             color: rgba(255, 255, 255, 0.8);
         }
-
         .detail-card strong {
             font-size: 12px;
             font-weight: 500;
         }
-
         .forecast-container {
             margin-top: 12px;
             padding-top: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
             text-align: left;
         }
-
         .forecast-title {
             font-size: 12px;
             font-weight: 600;
@@ -318,31 +283,24 @@
             color: rgba(255, 255, 255, 0.9);
             text-align: center;
         }
-
-        /* FIXED HOURLY FORECAST HORIZONTAL SCROLLER */
         .forecast-scroll {
             display: flex;
             gap: 8px;
-            overflow-x: scroll !important; /* Force scrollbar to always show */
+            overflow-x: scroll;
             padding-bottom: 8px;
             scroll-behavior: smooth;
         }
-
-        /* Scrollbar ko hamesha visible aur prominent rakhne ke liye */
         .forecast-scroll::-webkit-scrollbar {
             height: 8px;
         }
-
         .forecast-scroll::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
         }
-
         .forecast-scroll::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.5); /* Thora bright color taake saaf dikhe */
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 10px;
         }
-
         .forecast-card {
             background: rgba(255, 255, 255, 0.12);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -354,17 +312,14 @@
             font-size: 10px;
             transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
         }
-
         .forecast-card span {
             display: block;
         }
-
         .daily-list {
             display: flex;
             flex-direction: column;
             gap: 5px;
         }
-
         .daily-row {
             display: flex;
             justify-content: space-between;
@@ -375,56 +330,42 @@
             font-size: 11px;
             transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
         }
-
         .detail-card:hover, .forecast-card:hover, .daily-row:hover {
             transform: translateY(-3px);
             background: rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
-
         .empty-state {
             padding: 15px 0;
         }
-        
         .empty-state p {
             color: rgba(255, 255, 255, 0.8);
             margin-top: 8px;
             font-size: 13px;
         }
-
         @media (max-width: 480px) {
             body {
                 padding: 10px;
                 align-items: flex-start;
             }
-
             .weather-container {
                 padding: 20px 15px;
             }
-
-            .temperature {
-                font-size: 50px;
-            }
-
             .details-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-
             .detail-card:nth-child(5) {
                 grid-column: span 2;
             }
         }
-
         @keyframes fadeInUp {
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes popIn {
             0% { opacity: 0; transform: scale(0.8); }
             100% { opacity: 1; transform: scale(1); }
         }
-
         .spinner {
             display: inline-block;
             width: 14px;
@@ -436,11 +377,9 @@
             margin-right: 4px;
             vertical-align: text-bottom;
         }
-
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
         .error-alert {
             background: rgba(255, 82, 82, 0.15);
             border: 1px solid rgba(255, 82, 82, 0.4);
@@ -456,17 +395,13 @@
             animation: popIn 0.4s ease-out forwards;
             backdrop-filter: blur(5px);
         }
-
         body.dark-mode { background: #121212 !important; }
         body.dark-mode .weather-container { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; }
         body.dark-mode .detail-card, 
         body.dark-mode .forecast-card, 
         body.dark-mode .daily-row { background: rgba(255, 255, 255, 0.05); }
-
         .weather-icon-small { width: 24px; height: 24px; margin-bottom: 4px; }
         .forecast-card span:nth-child(2) { margin: 5px 0; }
-
-        /* Card Glow & Smooth Hover Enhancements */
         .weather-container::before {
             content: '';
             position: absolute;
@@ -477,15 +412,11 @@
             pointer-events: none;
             opacity: 0.5;
         }
-
-        /* Dynamic Background Light Particles Effect */
         body::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             background-image: 
                 radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px),
                 radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
@@ -495,18 +426,11 @@
             z-index: 1;
             pointer-events: none;
         }
-
         @keyframes moveParticles {
             0% { transform: translateY(0) translateX(0); }
             100% { transform: translateY(-50px) translateX(-50px); }
         }
-
-
-
-
-
-
-</style>
+    </style>
 </head>
 
 @php
@@ -531,9 +455,7 @@
 @endphp
 
 <body class="{{ $bgClass }}">
-
     <div class="weather-container">
-
         <button class="theme-toggle btn-common" onclick="toggleTheme()">
             <svg id="themeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -544,7 +466,7 @@
             <button id="unitToggleBtn" class="unit-toggle btn-common" onclick="toggleUnit()">°C / °F</button>
         @endif
 
-        <h1 style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <h1>
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
             </svg>
@@ -679,7 +601,6 @@
                             @endphp
                             <div class="forecast-card">
                                 <span>{{ \Carbon\Carbon::parse($item['dt_txt'])->format('g A') }}</span>
-                                
                                 <div style="margin: 4px auto;">
                                     @if($cond == 'clear')
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbc531" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
@@ -695,7 +616,6 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9"/></svg>
                                     @endif
                                 </div>
-
                                 <span style="font-weight: 600; margin: 2px 0;">{{ round($item['main']['temp']) }}°C</span>
                                 <span style="font-size: 9px; opacity: 0.8; text-transform: capitalize;">{{ $item['weather'][0]['main'] }}</span>
                             </div>
@@ -712,9 +632,8 @@
                             @php
                                 $dCond = strtolower($day['description']);
                             @endphp
-                            <div class="daily-row" style="display: flex; align-items: center; justify-content: space-between;">
+                            <div class="daily-row">
                                 <span style="font-weight: 500; width: 90px; text-align: left;">{{ $day['date'] }}</span>
-                                
                                 <div style="display: flex; align-items: center; gap: 6px;">
                                     <span>
                                         @if(str_contains($dCond, 'clear'))
@@ -731,7 +650,6 @@
                                     </span>
                                     <span style="text-transform: capitalize; opacity: 0.9;">{{ $day['description'] }}</span>
                                 </div>
-
                                 <span style="font-weight: 600;">{{ $day['temp'] }}°C</span>
                             </div>
                         @endforeach
@@ -745,7 +663,6 @@
                 <p>Enter a city name above to check the current weather.</p>
             </div>
         @endif
-
     </div>
     
     <script>
